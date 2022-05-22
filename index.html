@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Lore Date Converter (Horizon's End)</title>
+		<style>
+			* {
+				font-family: monospace
+			}
+		</style>
+	</head>
+	<body>
+		Real: <input type="datetime-local" id="real" step="60000"> <button onclick="getReal()">Get as Link</button>
+		<br><br>
+		Lore: <input type="datetime-local" id="lore" step="60000"> <button onclick="getLore()">Get as Link</button>
+		<script>
+			const real = document.getElementById("real");
+			const lore = document.getElementById("lore");
+			
+			const centrePointReal = new Date("2022-04-17").getTime();
+			const centrePointLore = new Date("3000-01-01").getTime();
+
+			function updateLore() {
+				lore.value = new Date(((real.valueAsNumber - centrePointReal) * 96) + centrePointLore).toISOString().slice(0, -8);
+			}
+
+			function updateReal() {
+				real.value = new Date(((lore.valueAsNumber - centrePointLore) / 96) + centrePointReal).toISOString().slice(0, -8);
+			}
+
+			real.onchange = updateLore;
+			lore.onchange = updateReal;
+
+			const url = new URL(window.location.href);
+
+			if (url.searchParams.has("lore")) {
+				lore.value = url.searchParams.get("lore");
+				updateReal();
+			} else if (url.searchParams.has("real")) {
+				real.value = url.searchParams.get("real");
+				updateLore();
+			} else {
+				real.value = new Date().toISOString().slice(0, -8);
+				updateLore();
+			}
+
+			function getReal() {
+				window.location.href = "?real=" + real.value;
+				navigator.clipboard.writeText(window.location.href);
+			}
+
+			function getLore() {
+				window.location.href = "?lore=" + lore.value;
+				navigator.clipboard.writeText(window.location.href);
+			}
+		</script>
+	</body>
+</html>
