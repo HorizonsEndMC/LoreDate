@@ -18,14 +18,14 @@
 			const lore = document.getElementById("lore");
 			
 			const centrePointReal = new Date("2022-04-17").getTime();
-			const centrePointLore = new Date("3000-01-01").getTime();
+			const centrePointLore = new Date("1701-01-01").getTime();
 
 			function updateLore() {
-				lore.value = new Date(((real.valueAsNumber - centrePointReal) * 96) + centrePointLore).toISOString().slice(0, -8);
+				lore.value = new Date(((real.valueAsNumber - centrePointReal) * 72) + centrePointLore).toISOString().slice(0, -8);
 			}
 
 			function updateReal() {
-				real.value = new Date(((lore.valueAsNumber - centrePointLore) / 96) + centrePointReal).toISOString().slice(0, -8);
+				real.value = new Date(((lore.valueAsNumber - centrePointLore) / 72) + centrePointReal).toISOString().slice(0, -8);
 			}
 
 			real.onchange = updateLore;
